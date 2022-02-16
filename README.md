@@ -471,6 +471,107 @@ So let's create one now using the manage.py startapp command.
         We'll see that the items that we've created now display their names.
         Instead of the generic values that were displayed before.
 
+# __Rendering Data__
+    - Before we get started with rendering data.
+        I want to take just a quick moment to fix some problems in our code.
+        If you're using gitpod you'll notice that it has a problems tab at the bottom near the terminal.
+        One thing this tab is doing is monitoring our code for issues in coding style using a Python package
+        called flake8.
+
+        Flake8 is based on a style guide for Python called pep8.
+        And you can see up here that pep8 guides software developers on things like.
+        indentation using tabs versus spaces, maximum line length, how to write good comments, and so on.
+        Flake8 uses these guidelines to act as a sort of spell checker except it's looking
+        for things like bad coding practices, packages were importing that we're not using, and so on.
+        So I've noticed I've got a few problems in the code I've written so far.
+        So I'm just gonna quickly fix those just to demonstrate some generally good coding practices.
+        This isn't critical to our project.
+        But in professional software development you should just always strive to follow
+        industry-standard guidelines. so that's all I'm doing here.
+        The first one I'm going to ignore since it's in a migration file. And those are automatically generated.
+        But you can see here it's just telling us that line 17. At a hundred and fourteen
+        characters is too long. Because it's greater than 79 characters which is the
+        standard guideline from pep8.
+        The next couple we can easily fix though. First in admin.py it looks like we need to
+        add a new line at the end of the file.
+        So I'm gonna go there and just do that. And save it. And that takes care of that one.
+        Then in models.py. It looks like we need to add a new line at the end of the file so I'll do that.
+        And we also need to add two blank lines above our class definition.
+        So if we do that and save it. We can see that all these errors except for the one
+        that we're ignoring are now gone.
+
+    - Getting back to the task at hand. Let's talk about rendering data.
+        In the last video we set up our item model and put a couple of items in the database.
+        The next thing we need is the way to display the to our users.
+        So we need to find a way to get those items from the database into a template.
+        Remember that in the Model View template design pattern
+        The views represent the programming logic that allows users to interact with
+        the database through the templates that they see.
+
+    - That means that we should probably start in views dot.py
+        And by the way if we look here it looks like we have the same problems that we had in models.py
+        We need two blank lines above our function definition.
+        And one new line at the end of the file. Just to get rid of those flake eight errors
+
+    - In views.py, We need access to the item model in this file so the first thing I'm going to do
+        is right at the top. From .models import item.
+        That's going to allow us to use the item model in our views.
+        In the get_todo list function. we can then get what's called a query set of all the
+        items in the database.
+        By creating a variable. Let's call it item. Equal to item.objects.all
+        And since this is going to return multiple items let's call it items.
+        Next I'm going to create a variable called context. Which is just going to be a
+        dictionary with all of our items in it.
+        So it needs a key of items. And that value is going to be our items variable that we just created.
+        And finally I'm going to add that context as a third argument to the render function.
+        And this will ensure that we have access to it in our todo list .html template.
+
+Once we save this we've got everything we need to ensure complete communication.
+Between the users of our app on the front end. And our database on the back end.
+I'm going to go down to the terminal now and start the app with python3 manage.py runserver
+And then open the page. You won't see any change to the template yet because we haven't actually edited
+the template file so let's do that now.
+
+    - If we head back to our project and open the template file.
+        We can render the items key from the context dictionary that we just created
+        using this double curly bracket syntax.
+        This is called a template variable and anything that you return to the template
+        in that dictionary can be rendered in the same way.
+        That includes almost anything that you can use in Python
+        Meaning you can return strings, numbers, lists, other dictionaries, or even functions and classes.
+        So let's save this and then refresh the template and see what we've got.
+        And as expected we have the value of the items key from the context dictionary
+        which you might recall I said was a Django query set.
+        We're getting pretty close to having a nice list of our items here but this
+        output isn't very user friendly.
+        
+        A query set is kind of like a list which means we can iterate through it in our
+        template just like we could iterate through a list in Python.
+        If we go back to the file.
+        We can adjust the syntax slightly to turn it into a loop that will iterate through our items.
+        In Django templates any template variables we'll use this double curly bracket syntax.
+        And any other kinds of functionality like for loops, for example, wi'll use this
+        opening and closing curly bracket % sign syntax which looks like this.
+        So opening and closing.
+        And for a for loop, for example, we might do something like for item in items.
+        And then the closing tag will be an end for.
+        Now inside this loop we can do anything we want which revolves around an item.
+        So I'm going to create a table surrounding the loop and for each item, in items, we want to create a row.
+        And inside that row, we want to td elements.
+        And let's just tab those in.
+        The first td element is going to contain the item's name.
+        So we'll use the template variable syntax there.
+        And call item .name
+        And the second one will contain the items done status.
+        so item dot done.
+        And personally just to keep my code clean I prefer to tab in for loops
+        just as I would with regular HTML.
+        This is 100% a personal preference.
+        If we save this and go back to refresh our template one more time.
+        we've got our items and they're done status rendered out here.
+        And just to clean it up let's get rid of this query set so go back to the template.
+        And remove the item's tag there at the top.
+        And save it. And then we can refresh. And that's a little bit cleaner.
 
 
 
