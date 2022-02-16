@@ -471,7 +471,7 @@ So let's create one now using the manage.py startapp command.
         We'll see that the items that we've created now display their names.
         Instead of the generic values that were displayed before.
 
-# __Rendering Data__
+# __Rendering Data part 1__
     - Before we get started with rendering data.
         I want to take just a quick moment to fix some problems in our code.
         If you're using gitpod you'll notice that it has a problems tab at the bottom near the terminal.
@@ -544,7 +544,7 @@ the template file so let's do that now.
         which you might recall I said was a Django query set.
         We're getting pretty close to having a nice list of our items here but this
         output isn't very user friendly.
-        
+
         A query set is kind of like a list which means we can iterate through it in our
         template just like we could iterate through a list in Python.
         If we go back to the file.
@@ -573,9 +573,109 @@ the template file so let's do that now.
         And remove the item's tag there at the top.
         And save it. And then we can refresh. And that's a little bit cleaner.
 
+# __Rendering Data part 2__
+    - This looks okay but we can make it better.
+        I'm going to go back to the template and update our loop to use an
+        if statement inside it that will strike out the item if it's been done.
+        Rather than rendering true or false for the done status.
+        using the same syntax that we used for the for loop.
+        We can create if-else statements in Django templates just like in python
+        So let's create an if-else and if block here.
+        And instead of rendering the name. We want to check whether the item is done
+        and then render something accordingly.
+        So what we need is.
+        Three of these.
+        The first is going to be if
+        The second is going to be the else
+        And the third is going to be the end if.
+        And then all we need to do is check if item.done.
+        We want to render a td. But strike it out.
+        And otherwise, we just want to render a regular old td with the item's name.
+        So let's save that and see what we've got
+        And we can see that both of our todo items are now struck out because they're both done.
+        To demonstrate that this really is communicating with the database. If we go to the admin.
+        Go into the items table. Open up the second item that we created and uncheck its done status
+        then save it.
+        If we go back to the template and refresh we'll see that the second item is no longer struck out.
+        There's one last thing i'd like to add here and that's to handle what should
+        happen if our database doesn't have any todo items in it.
+        To handle that we can use a special tag called empty. Right before the endfor tag.
+        After the empty tag all we want to do is render a single row.
+        With a single td element in it. Which says you have nothing to do.
+        If I save that.
+        Then go back to the admin. Open up the items table.
+        And delete all the items.
+        Our template will now show us that we have nothing to do.
 
-
-
+# __Creating a New Item Part 1__
+    - At this point we've seen how to render data from a Django database in a
+        front-end HTML template. But users of our todo list app still don't have a way to
+        actually interact with that data such as the ability to create their own todo
+        items or mark them as complete. In this video we're going to cover the first
+        part of a concept known as crud. Which stands for create, read, update, and delete.
+        By giving users the ability to create their own to-do items.
+        Generally, with crud, you'll want different templates for different operations.
+        Our home page at the moment represents the read operation in crud.
+        To give users the ability to create an item.
+        I'm going to simply duplicate the todo list at HTML template.
+        Rename it to add_item.html.Then we'll open this new template.
+        Update the header. To Add a Todo Item. And remove the table.
+        I also need to add a link on the home page to access the new template.
+        So I'm going to add that here right after the table. With an a href equals
+        And we're gonna link this to add. And we'll just call it Add an Item.
+        And just to be sure that we're starting at the root let's add a slash right in front of add.
+        Next we need a view to display this template so let's go up to views.py
+        And to keep it simple we'll just copy the get_todo list view and make some changes to it.
+        I'm going to rename it to add_item
+        Remove the items and context since we don't need them anymore.
+        Change the template to our new add_item.html template.
+        And remove the context since this view has no context at the moment.
+        Lastly we need a new URL to access this template because right now
+        if we click the link to add an item we'll get a page not found error.
+        So I'm gonna go to urls.py and copy the URL for the home page.
+        Change this URL to add
+        Update the view to our new add_item view.
+        And will update the name to add as well.
+        And finally import the new add item view into this file to make it accessible to urls.py
+        if we run the server now with python3 manage.py runserver
+        And it looks like we forgot a comma at the end of this item here.
+        So that should fix that.
+        And looking good so the server is running now we can go to open ports.
+        Open the browser. And click the link to add an item. And we can see our new view is working perfectly.
+        Now we just need a way to actually add an item from this template.
+        So let's go back to the add_item.html template and create a form element.
+        This form is going to be the mechanism by which a user can enter the name for a todo item.
+        And whether or not it's done.
+        And to do that we're just going to need two inputs and a submit button.
+        I'm gonna wrap them in paragraph elements inside a couple of divs for now
+        just so they look a little cleaner.
+        So the first thing that we need is three divs.
+        The first two divs are going to have a paragraph element inside of them.
+        So we'll add those here.
+        And the paragraph there and the last div is going to be our submit button.
+        So we'll tab that in and add a button element for the last div.
+        And the first input is going to go inside this first paragraph.
+        So I'll create that here and it's going to be an input of type text
+        because this is where the name of the to-do item will go.
+        And I'm going to give this input two attributes.
+        One is ID Which will have a value of id_name.
+        And the other is the name attribute. Which will have a value of item_name.
+        As a quick review, the name attribute of this input is the name we'll use to access
+        the input's value in our view function.
+        And the ID attribute is the way that we can identify it on the page to apply its label CSS and so on.
+        And speaking of the label let's apply a label to this input element right now by creating a label for equals id_name
+        And giving it a value of name.
+        Now to create the done status input. I just need to copy this and make a couple of quick changes to it.
+        I'm gonna change the labels for attribute to id_done
+        And obviously, give it a label of done instead of name.
+        This is going to be a checkbox.
+        And it will have the ID of id_done and a name of done.
+        Lastly, we need to give our button here a type of submit.
+        So that it'll submit our form. And let's give it a label of Add Item.
+        Also just so this button has the same margins around it as the inputs above it.
+        I'm gonna wrap a paragraph element around the button as well.
+        The form is mostly done at this point the only thing it needs is a method of post.
+        And an action of add. This is going to be our add URL that we're going to submit the form to.
 
 
 
