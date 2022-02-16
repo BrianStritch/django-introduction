@@ -305,7 +305,7 @@ So let's create one now using the manage.py startapp command.
         And we'll see now by the way that that warning is gone.
         And then once the project is running we can just open the browser.
         And go to /admin
-        
+
     - We'll be able to log in with the new superuser that we just created.
         Once we've logged in we can see the authentication and authorization app
         that's been created.
@@ -314,6 +314,92 @@ So let's create one now using the manage.py startapp command.
         In the next couple of lessons we'll start making changes to the database.
         By delving into the model layer of the Model View template design pattern.
 
+# __Models Part 1__
+    - In the last lesson we ran Django's initial database migrations in order to
+        set up our sequel Lite 3 database.
+        And created a superuser that we could use to manage it.
+        We also took a brief look at the built-in Django admin panel.
+        And we were able to see the users and groups tables that were created by those initial migrations.
+        To get back to our to-do list app.
+        In this video we're gonna create our own Django model
+        which will represent records in a new table in the database.
+        Specifically, our model will represent the characteristics of all
+        todo items which will live in a new items table.
+        To better understand how models work let's think of our sequel Lite database as an Excel spreadsheet.
+        If you think of the database as the entire spreadsheet then each table in the
+        database is represented by a single sheet.
+        For example, we know that there's a user's table in the database already
+        so we could rename this sheet to users.
+        Then on the user's sheet the first row should describe some things that we
+        know all users will have in common.
+        For example they probably should all have a user id.
+        username, password, email, first name, and last name.
+        Each subsequent row then represents an individual user record in our database.
+        So, for example, our superuser might look something like this
+        With the username a password email
+        a first name and the last name.
+        And to add more records to the database we just add more rows with all the relevant information.
+        If we create an item sheet to represent our todo items.
+        We need to consider what types of things all todo items might have in common.
+        To keep it simple for now let's say that each item only has a few attributes
+        An item id a name and a done status
+        We might have a few items like learn HTML, learn CSS, learn JavaScript, and learn Django.
+        And HTML CSS and JavaScript are already done so we can mark those is true.
+        But learning Django still needs to be completed so we'll leave that as false for now.
+        In this spreadsheet the model that describes what each item looks like
+        is this first row which contains the column headers.
+        Heading back to our code. We need to essentially duplicate this design in Python
+        and to do it we're going to use the models.py file inside of the to-do app
+        In this file let's define a class called item. The class here is analogous to the item
+        sheet in the spreadsheet we were just experimenting with.
+        When Django sees that we've created a new item class it will automatically create
+        an items table when we make and run the database migrations.
+        There's a key thing you need to understand here though. And that's that by itself this class won't do anything
+        We need to use something called class inheritance to give it some functionality.
+        You'll see at the top of this file there is already an item called models imported from django.db
+        What this means is that we're literally importing the model's folder from the
+        Django / DB directory in our project site-packages.
+        And by doing so we gain access to everything in that folder.
+        Just like when we imported our view function in urls.py
+        To dig even deeper if you go to the Django source code on github.
+        You'll see that you can drill into the django directory.
+        The db directory and finally the models directory and you'll see a number of files.
+        if you look in __init__ .py
+        You'll see that all it is is a bunch of imports pulling in various python files and classes.
+        So that we can just import the entire model's folder and be able to access all of these things.
+        In particular, if you look here in the imports. You'll see that we were able to
+        access the model class from django.db.models. base
+        Which is where the default model class that's built into Django lives.
+        You could even go into base.py And find the literal class definition for model.
+        So all this functionality that's defined in the model's folder and all its files
+        is accessible to us just by importing models from django.db
+        And that's what will give us the ability to start our own model with all of that base functionality.
+        To do that I'm going to inherit the base model class by putting models.model
+        here in the parentheses so that our item class can do everything the built-in Django model class can do.
+        This concept of class inheritance it's going to be very important as you progress
+        in your understanding of python and object-oriented programming in general.
+        For now just remember that if you need functionality from one class to be available in another.
+        All you need to do is inherit the one you need.
+        Now that we've inherited all the base functionality from the built-in Django model class.
+        All that's left to do is define the attributes that our individual items will have.
+        We can skip the Id field that we had in our spreadsheet since Django will create that for us automatically.
+        But we do need to define a name field and a done status field.
+        The name field will use one of the built-in Django fields called a char field.
+        Which means it will just have characters or text in it. And the done field will be a boolean field.
+        So models.boolean field
+        Meaning it can be either true or false.
+        Finally let's give these fields a couple of restrictions I'm going to add the max length attribute
+        on the name field just to keep the length of our item names reasonable.
+        So we'll say 50 characters
+        And add both null equals false. And blank equals false
+        To prevent the creation of todo items without a name. The null equals false attribute here
+        prevents items from being created without a name programmatically
+        and blank equals false will make the field required on forms.
+        This way we're certain that a todo item can't be created without a name
+        whether it's done in Python code. Or by a user in a web form or even an administrator in the admin panel.
+        And next I'm gonna do the same for the done field. Null equals false and blank equals false.
+        And I'm gonna add a default value of false here just to make sure
+        that to-do items are marked as not done by default
 
 
 
