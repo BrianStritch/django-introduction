@@ -401,8 +401,75 @@ So let's create one now using the manage.py startapp command.
         And I'm gonna add a default value of false here just to make sure
         that to-do items are marked as not done by default
 
-
-
+# __Models part 2__
+    - So we've created our item class now and we need to actually create the table in
+        the database. You might remember that Django uses migrations to handle
+        database operations. So what we need to do is use the command python3 manage.py
+        by make migrations in order to make a migration file. So I'm going to stop the server now.
+        And run python3 manage.py make migrations.
+        And I'm going to run it with the dry run flag just so that we're sure of what it's going to do.
+        And I'm not making any unintended changes. And if I do that I can see that it
+        all looks good so I'm gonna run it for real now.
+        And what happens here is Django sees
+        that we've added a new model to our app so it creates a new Python file in the
+        migrations folder. That contains the code to create that database table based on our model.
+        So this code will be converted to sequel by Django and executed on the
+        database when we actually run the migrations.
+        We can also use the python3 manage.py show migrations
+        command to see that we do in fact have an unapplied migration on our to-do app now.
+        And to apply it all we need to do is run python3 manage.py migrate
+        I'm gonna run this with the plan flag. Once again just to be 100% certain that I'm not
+        doing anything unintentional.
+        And we can see that it's going to create the model item. That's the planned operation.
+        And that all looks good so I'm going to go ahead and run it now.
+        And that migration has been applied.
+        Even though the items table has been created and we could start creating
+        items programmatically now.
+        We won't be able to see our items in the admin until we expose them.
+        
+    - To do that we need to register our model in the todo apps admin.py file.
+        I'm gonna go to admin.py and import our item model from .models
+        So from models. import. Let's put this at the top actually.
+        From .models import item.
+        And this says from the current directories models file we want to import the item class.
+        And then we're going to use the admin.site.register function.
+        To actually register our item model.
+        If we save that. Now we can run our project with python3 manage.py runserver
+        If we go to the admin panel now we can see our new items table.
+        To create a new item we can simply click on items.
+        Click add item.
+        And fill out the form.
+        So let's make an item called create_item_class
+        Which is done.
+        We'll click Save.
+        And let's add another one.
+        Register item model.
+        Which is also done.
+        I'll click Save.
+        And we can see that these items have been created but they don't have very friendly names.
+        So let's make one last change to our model just to clean that up.
+        The item object value in the admin is actually coming from the fact that we
+        inherited the base Django model class. When we created our item model.
+        By default all models that inherit this base model class will use its built-in string
+        method to display their class name followed by the word object.
+        Just so that there's sort of a generic way to display them.
+        And you can actually see this method defined in the base model class in django.db.models.base.
+        If you want to take a look. You can see the string method right here.
+        It returns object. And then the primary key. So that's what we see in the admin panel.
+        To change that we need to actually override that string method with our own.
+        And we can do that just by redefining it here in our own class.
+        so if we define __string__
+        And this is going to take in self. Which is the class itself as its own argument.
+        And all it's going to do is just return self.name.
+        So this is going to return the item class's name attribute which in our case
+        is going to be the name that we put into the form.
+        So this is the beauty of class inheritance we still get all of the default functionality
+        of the default Django model class.
+        But we can override this string method just to change how our items are displayed.
+        Doing this will make sure that in the admin we see our item names instead of item object.
+        So if we go ahead and save that. And then go back to the admin. And refresh.
+        We'll see that the items that we've created now display their names.
+        Instead of the generic values that were displayed before.
 
 
 
