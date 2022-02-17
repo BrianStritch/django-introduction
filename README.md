@@ -615,7 +615,8 @@ the template file so let's do that now.
         part of a concept known as crud. Which stands for create, read, update, and delete.
         By giving users the ability to create their own to-do items.
         Generally, with crud, you'll want different templates for different operations.
-        Our home page at the moment represents the read operation in crud.
+    
+    - Our home page at the moment represents the read operation in crud.
         To give users the ability to create an item.
         I'm going to simply duplicate the todo list at HTML template.
         Rename it to add_item.html.Then we'll open this new template.
@@ -677,7 +678,8 @@ the template file so let's do that now.
         The form is mostly done at this point the only thing it needs is a method of post.
         And an action of add. This is going to be our add URL that we're going to submit the form to.
 
-
+# __Creating a New Item Part 2__
+    - 
 
 
 
