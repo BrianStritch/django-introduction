@@ -679,10 +679,130 @@ the template file so let's do that now.
         And an action of add. This is going to be our add URL that we're going to submit the form to.
 
 # __Creating a New Item Part 2__
-    - 
+    - This would be a good time to talk about the difference between get and post requests.
+        And that difference is quite simple. Get requests get information from the server.
+        And post requests send or post information to the server.
+        In our case we're going to be sending the data for a new todo item to the /add URL
+        So we want to use post.
+        On that note we do need to add a special template tag to the form as a security measure.
+        Just inside the opening form tag whenever we're posting information in Django.
+        We need to add the CSRF or cross-site request forgery token.
+        This token is a randomly generated unique value which will be added
+        to the form as a hidden input field when the forms submitted.
+        And works to guarantee that the data we're posting is actually coming from our
+        todo list app and not from another website.
+        If we were to skip adding this token.
+        Django would throw an error when we submitted the form because it wouldn't
+        be able to guarantee that the post data wasn't coming from another site.
+        With all that done the final piece of the puzzle here is how to handle what
+        happens when the user clicks submit on the form.
+        I'm gonna go back to views.py. And since we set the form action to our add URL.
+        we need to add an if statement in the add item view to check what type of requests
+        this is.
+        If it's a get request we're already all set because all we want to do is get the
+        add item.html template.
+        However if the request to this URL is a post request that would mean it came
+        from someone clicking the submit button on our form. And we want to actually
+        create a to-do item and then redirect back to the home page to show the user
+        their updated to-do lists.
+        To do this all we need to say is if request.method equals post.
+        we want to set a variable for the name and a variable for done
+        And remember we can get these values using the name attributes from our form.
+        So to get the items name we just need to look up request.post.get.
+        And the name of that attribute which in our case was item_name
+        For the checkbox it's a little bit different. Since it's just a boolean value but in
+        order to check if the item is done. All we have to do is check whether the post
+        data actually has a done property in it. By checking whether done in request.post
+        At this point we should have everything we need to actually create a new item.
+        We've already got our item model imported from .models up here at the top.
+        And to create an item is actually extremely simple.
+        All we need to do is call item.objects.create and give it these two variables.
+        So name equals name done equals done. And that's it finally we need to return a redirect
+        back to the get_todo list URL name.
+        And in order to do that we're going to need to import redirect from the Django shortcuts.
+        So what's gonna happen here is when somebody hits this add_item URL
+        they're going to end up in this add_item view.
+        If it's a get request then we'll just return the add_item HTML template by rendering it to them.
+        But if it's a post request we'll get the information from the form that comes
+        in from this template.
+        And use it to create a new item.
+        And then we'll redirect them back to the get todo list view.
+        Where they'll see their updated todo list.
+        So if we run the server now. Which I believe it's already running and it is.
+        If we just go and let's just make sure that's saved.
+        If we just go and refresh this. We now have a form so let's create a new item called
+        learn how to create an item. Which is obviously done. And if we click add_item.
+        We will see
+        Things I need to do
+        Learn how to create an item. Is marked off.
+        We can go back and create another one.
+        Learn something else
+        And leave it as unfinished.
+        Click add item And we can see that it is now working exactly as it should.
+        We've now covered 50% of crud. We have the ability to read from our database.
+        And the ability to create items in our database.
 
 
+# __Forms__
+ In the previous lesson we created a form in the add_item HTML template. Which allows users to add todo items to the database.
+This works perfectly fine but creating forms manually leaves our application open to errors if we don't validate them properly.
+For example if we create a form and forget to mark one of the fields as required. But that field is required on the database model. Django would try to create an item in our database with the missing field which could result in an error on the front-end
+To alleviate this issue. In Django it's possible to create forms directly from the model itself. And allow Django to handle all the form validation.
 
+#### __forms.py__
+
+    -   To make this happen we need to create a new file in the todo app directory called forms.py
+        Inside the forms.py file we need two things.
+        First from Django, we need to import forms which will allow us to leverage
+        some of the built-in Django form functionality.
+        And secondly, we need our item model.
+        Just like when we created the item model itself.
+        Our form will be a class that inherits a built-in Django class to give it some basic functionality.
+        To set it up we need to create a new class.
+        I'll call mine ItemForm and it's going to inherit all the functionality of forms.ModelForm
+        To tell the form which model it's going to be associated with.
+        We need to provide an inner class called meta.
+        This inner class just gives our form some information about itself.
+        Like which fields it should render how it should display error messages and so on.
+        In this class the only thing I'm going to define our model. Which is going to be our item model.
+        And fields which will tell it we want to display the name in done fields from the model.
+        The idea of creating this form in Django is that rather than writing an
+        entire form ourselves in HTML.
+        We can simply render it out as a template variable.
+        To make sure we've got it available for use in the template.
+        Let's head to views.py and import the item form.
+        With the form imported we can now create an instance of it in the add_item view.
+        Create a context which contains the empty form.
+        And then return the context to the template.
+        This means that in the add item template we can now go delete all the fields we created ourselves.
+        And instead render the form just like we would any other template variable.
+        Loading the page now will show us that our new form renders just fine.
+        But if you try to add a new item you'll see that we get an integrity error.
+        Django is telling us that the not null constraint on the name field failed when trying to create an item.
+        In other words, we set null equals false on the model to indicate we wanted the name to be required.
+        But we're trying to create an item without a name.
+        The reason we're seeing this error is that we've deleted the name and done fields
+        we created ourselves and are instead using the Django form.
+        But the view is still looking for the old fields we made ourselves.
+        To fix it and finalize the functionality let's go back to the add_item view.
+        Here in the request.post handler instead of trying to create the item manually.
+        Let's let our new form from forms.py do it.
+        To do that we can use a similar syntax to what we use to create the empty form.
+        But instead here will populate the form in Django with the request.post data.
+        Then we can simply call the is_valid method on the form.
+        And Django will automatically compare the data submitted in the post request
+        to the data required on the model.
+        And make sure everything matches up.
+        To save our item then all we need to do is call form.save and then redirect to the
+        get_todo list view like we were before.
+        If you go back to the add_item page now you'll see the form works as expected.
+        You probably notice that when we removed our own form elements we
+        lost the vertical layout.
+        To get that back Django forms actually have a number of built-in methods we can use in the template.
+        Such as. As p which will render the fields as paragraphs. And as table. Which will render them as a table.
+        I'll use as p here to get our vertical styling back.
+        With our Django form functional let's now move on to the next element of crud.
+        Updating or editing items.
 
 
 
