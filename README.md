@@ -903,7 +903,7 @@ To alleviate this issue. In Django it's possible to create forms directly from t
         So this will make it so that when a user clicks toggle. Our view will get the item.
         And if it's done status is currently true it will flip it to false and vice versa.
         Finally we'll just redirect back to they get_todo list view and we should be all set
-        
+
     - For the last part of crud. The ability to delete items. Our structure will be
         pretty much identical to everything we've done so far.
         I'll start by copying the toggle item view.
@@ -918,7 +918,58 @@ To alleviate this issue. In Django it's possible to create forms directly from t
         Moving forward we'll talk about how to use built-in Django testing.
         To ensure our code is always working as we expect.
 
-
+# __Django Testing__
+    - Like many development languages and frameworks including JavaScript and Python itself.
+        Django has a testing framework available that we can use to create automated tests.
+        That ensure our application is working as expected.
+        When we created the todo app you might have noticed that it provided us by default
+        with a tests.py file.
+        Inside this file you'll find that Django imports the test case class.
+        This class is an extension of the Python standard library module called unit tests.
+        Which provides us with a bunch of methods to assert various things about our code.
+        Such as assert equal assert true assert false and so on.
+        Testing in most programming languages and frameworks is based on these assertions.
+        And we'll use them to test our code in Django as well.
+        To get started let's create a class called test Django which inherits the built-in test case class.
+        Giving us access to all its functionality.
+        Inside our new class. Every test will be defined as a method that begins with the word test.
+        I'll create one here called test this thing works.
+        And it will take in self as its only parameter.
+        Self here refers to our test Django class which because it inherits the test case class
+        wi'll have a bunch of pre-built methods and functionality that we can use.
+        For example inside the test this thing works method.
+        I'll use the built-in assert equal method to determine whether one equals zero.
+        Obviously we know one is not equal to zero so this test should fail.
+        To run it we can head to the terminal and use the command python3 manage.py test.
+        Understanding this output is pretty simple.
+        At the very top, there's an F indicating that this test failed and our thing we're expecting to work in fact does not work.
+        Beneath that we see exactly which test failed and why.
+        And at the bottom a summary telling us it ran one test.
+        How long it took and how many failures there were.
+        Let's copy this test a few times.
+        And make some small changes to demonstrate how it would look if there were more
+        I'll call these new tests test this thing worked two three and four.
+        I'll correct the first one so it passes. Then we'll make the second one fail.
+        The third will have a syntax error.
+        And the fourth will also fail.
+        Now running Python3 manage.py test again.
+        You'll see there's a dot for the first test which passed.
+        A F for the ones that failed.
+        And an E for the one that had an error.
+        This .F and E syntax is important to understand so you can see how your code is doing quickly and easily.
+        If I update these tests so they all pass and run the tests again.
+        You'll see we get four dots. Which is what you want to see because it
+        indicates that all tests ran successfully and they all passed.
+        As you write tests you can use this output to determine which ones are passing and
+        failing and identify any errors in the tests themselves.
+        To finish up let's delete all but the first one here. And then rename this file to test views.py
+        If we leave it as tests.py Django will still find it and run our tests.
+        But we can also separate our testing logic in order to keep it organized and easy to manage.
+        As well as to make our tests more independent of one another.
+        So we'll call this one test views. And this will be used as the name implies to test our views.
+        Then I'll create another one called test models.
+        And another one for testing forms.
+        Over the next few videos, we'll complete these test files. And write tests for our entire application
 
 
 
