@@ -1041,9 +1041,11 @@ You can see also if I go and change the fields defined in the metaclass on the f
         and that they're using the proper templates.
         But also what they can do. Specifically adding toggling and deleting items.
         Let's start by renaming the existing class in the test views type I file. To test views.
-        Next just to show you the bigger picture. I'll write out the names of the six tests we're going to write.
-        And then will complete them one by one.
-        First we'll want to test that we can get the todo list which is the home page.
+        Next just to show you the bigger picture. 
+        
+I'll write out the names of the six tests we're going to write. And then will complete them one by one.
+
+    - First we'll want to test that we can get the todo list which is the home page.
         Then we'll want to test getting the add_item page.
         And then test getting the edit_item page.
         After that, we'll test that we can add an item.
@@ -1103,6 +1105,25 @@ You can see also if I go and change the fields defined in the metaclass on the f
         To test the item model.
 
 
+# __Testing Models__
+    - To finish up testing for our app. Let's write one more quick test for the models.
+        In general, we don't want to test internal Django code because it's
+        already been tested by the django developers themselves.
+        But there is one thing we can test. Just to demonstrate the philosophy.
+        And that's to test that our todo items will be created by default with the done
+        status of false.
+        I'll begin in test_models.py By as usual importing TestCase from django.test
+        And we'll need to import our item model from .models
+        Now I'll create a new class called TestModels which inherits TestCase.
+        And inside it a method called test_done_defaults_to_false
+        This test is extremely simple.
+        All we need to do is create an item. Using item.objects.create
+        And I'll call this item Test Todo Item.
+        And then use assert false. To confirm that it's done status is in fact, false by default
+        With that finished let's save the file and run just that test.
+        That one passed. So we know now we should have 10 tests passing. And to confirm that I'll run them all
+        With all our tests passing. In the next video we'll implement a tool called
+        coverage to show what percentage of our code we've actually tested.
 
 
 
