@@ -978,11 +978,13 @@ To alleviate this issue. In Django it's possible to create forms directly from t
 # __TESTING FORMS__
     - Now that you've seen an example of how testing in Django works.
         Let's write some tests for our item form.
-        In test forms.py I'll begin by importing Testcase from django.test
+
+    - In test forms.py I'll begin by importing Testcase from django.test
         And our item form from .forms
-        Now let's create a new class called TesItemForm.
+        Now let's create a new class called TestItemForm.
         Which will inherit Testcase and contain all the tests for this form.
-        We'll begin with the simple test to make sure that the name field is required in order to create an item.
+
+    - We'll begin with the simple test to make sure that the name field is required in order to create an item.
         In general, you'll want to name your tests so that when they fail you can easily see what the issue is.
         So I'll call this one test item name is required.
         I'll begin by instantiating a form and we'll deliberately instantiate it without a name
@@ -1001,11 +1003,13 @@ To alleviate this issue. In Django it's possible to create forms directly from t
         As we're now testing that the form is not valid. The error occurred on the name
         field and the specific error message is what we expect.
         They should be no doubt that the name field is required after running this test.
-        let's write another one to ensure the done field is not required.
+
+    - let's write another one to ensure the done field is not required.
         It shouldn't be since it has a default value of false on the item model.
         In this case we'll create the form sending only a name.
         And then just test that the form is valid as it should be even without selecting a done status.
-        Finally let's assume that somewhere down the line another developer comes
+
+    - Finally let's assume that somewhere down the line another developer comes
         along and changes the item model.
         Adding a field to it that contains some sort of information we don't want to display on the form.
         If you remember we actually defined the fields to display explicitly in the inner metaclass on the item form.
@@ -1013,7 +1017,8 @@ To alleviate this issue. In Django it's possible to create forms directly from t
         including those we might not want the user to see.
         That said we should write a test to ensure that the only fields that are displayed in
         the form are the name and done fields.
-        I'll call this test. test_fields_are_explicit_in_form_metaclass
+
+    - I'll call this test. test_fields_are_explicit_in_form_metaclass
         For this test we can simply instantiate an empty form.
         And then use assert equal to check whether the form.meta.fields attribute
         is equal to a list with name and done in it.
@@ -1021,17 +1026,13 @@ To alleviate this issue. In Django it's possible to create forms directly from t
         And if someone changes the item model down the road our form won't
         accidentally display information we don't want it to.
         This will also protect against the fields being reordered. Since the list must match exactly.
-        With our three tests done let's run them and see how it fares.
-        So we can see that all tests have passed. And in fact it's actually still running
-        the one we created in the last video that lives in the test views.py file.
-        So this is a good place to explain. You can actually be more specific about what you're testing.
-        We could for example run only the form tests by using python3 manage.py tests todo.test_forms
-        Run a specific class of tests by adding that on.
-        or even run a specific individual test by adding on the name of the test itself.
-        Like I'll do for the last test here.
-        You can see also if I go and change the fields defined in the metaclass on the form.
-        This test will fail letting us know that something is wrong.
-        With our form thoroughly tested. In the next video, we'll move on to testing our views.
+
+With our three tests done let's run them and see how it fares.So we can see that all tests have passed. And in fact it's actually still running the one we created in the last video that lives in the test views.py file.
+So this is a good place to explain. You can actually be more specific about what you're testing.
+We could for example run only the form tests by using python3 manage.py tests todo.test_forms
+Run a specific class of tests by adding that on or even run a specific individual test by adding on the name of the test itself. Like I'll do for the last test here. 
+__python3 manage.py test todo.test_forms.TestItemForm.test_fields_are_explicit_in_form_metaclass__
+You can see also if I go and change the fields defined in the metaclass on the form. This test will fail letting us know that something is wrong. With our form thoroughly tested. In the next video, we'll move on to testing our views.
 
 
 
