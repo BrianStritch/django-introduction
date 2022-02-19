@@ -918,7 +918,7 @@ To alleviate this issue. In Django it's possible to create forms directly from t
         Moving forward we'll talk about how to use built-in Django testing.
         To ensure our code is always working as we expect.
 
-# ----------------------------------------- __TESTING__  --------------------------------------------
+# ------------------------- __TESTING__  -------------------------------
 
 # __Django Testing__
     - Like many development languages and frameworks including JavaScript and Python itself.
