@@ -922,7 +922,8 @@ To alleviate this issue. In Django it's possible to create forms directly from t
     - Like many development languages and frameworks including JavaScript and Python itself.
         Django has a testing framework available that we can use to create automated tests.
         That ensure our application is working as expected.
-        When we created the todo app you might have noticed that it provided us by default
+    
+    - When we created the todo app you might have noticed that it provided us by default
         with a tests.py file.
         Inside this file you'll find that Django imports the test case class.
         This class is an extension of the Python standard library module called unit tests.
