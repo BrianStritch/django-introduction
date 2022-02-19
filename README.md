@@ -1034,7 +1034,73 @@ Run a specific class of tests by adding that on or even run a specific individua
 __python3 manage.py test todo.test_forms.TestItemForm.test_fields_are_explicit_in_form_metaclass__
 You can see also if I go and change the fields defined in the metaclass on the form. This test will fail letting us know that something is wrong. With our form thoroughly tested. In the next video, we'll move on to testing our views.
 
-
+# __Testing Views.py__
+    - With our forms tested. let's test our views.
+        The process here is going to be pretty straightforward.
+        We want to test not only that our views return a successful HTTP response
+        and that they're using the proper templates.
+        But also what they can do. Specifically adding toggling and deleting items.
+        Let's start by renaming the existing class in the test views type I file. To test views.
+        Next just to show you the bigger picture. I'll write out the names of the six tests we're going to write.
+        And then will complete them one by one.
+        First we'll want to test that we can get the todo list which is the home page.
+        Then we'll want to test getting the add_item page.
+        And then test getting the edit_item page.
+        After that, we'll test that we can add an item.
+        Then test that we can delete an item using the delete view.
+        And finally we'll test we can toggle an item using the toggle view.
+        To test the HTTP responses of the views.
+        We can use a built-in HTTP client that comes with the Django testing framework.
+        I'll start with the get_todo_list view.
+        By setting a variable response equal to self.client.get
+        And providing the URL slash since we just want to get the home page.
+        We can then use assert equal to confirm that the response.status code is equal to 200
+        A successful HTTP response.
+        To confirm the view uses the correct template.
+        I'll use self.assertTemplateUsed and tell it the template we expect it to use in the response.
+        Let's comment out the rest of these temporarily and run this test using
+        python3 manage.py test todo.test_views.
+        That one passed. So moving on we can test getting the add_item page in the exact same way.
+        The only things we have to change are the URL we're getting. And the template we expected to use.
+        The Edit item page is a little different.
+        I'll paste in the same code and change the template we're expecting.
+        But, in this case, the URL will be edit followed by an item ID like 99 for example.
+        If we just pass it a static number though. The test will only pass if that item ID exists in our database.
+        And we want to be more generic than that.
+        Conveniently in Django tests, we can also do crud operations.
+        So let's import the item model at the top. And then create an item to use in this test.
+        Now that we've got the item created.
+        Testing that we can get the Edit URL.
+        Is as simple as adding on its ID. Which I'll do with the Python f string.
+        if you're not familiar with f strings.
+        They work almost identically to the template literals you learned about in the JavaScript lessons.
+        All we've got to do is add an f before the opening quotation mark.
+        And then anything we put in curly brackets will be interpreted and turned into part of the string.
+        The last three tests will evaluate whether we are able to create update and delete items.
+        To test creating an item we can set the response equal to self.client.post on the add URL
+        And give it a name the item as if we've just submitted the item form.
+        If the item is added successfully. The view should redirect back to the home page.
+        So I'll use assert redirects. To confirm that it redirects back to slash.
+        Now let's test whether we can delete an item.
+        First I'll create one using item.objects.create.
+        And then I'll use the same syntax as we used on the edit_item view.
+        To make a get request. To delete slash the items ID
+        Again we'll want to assert that the view redirects us as that's what it should do if it's successful.
+        And while we should technically already know the test passed at this point.
+        Just to prove that the item is in fact deleted.
+        I'll try to get it from the database using .filter and passing it the item ID
+        Since that item is the only one on the database and we just deleted it.
+        We can be certain the view works by asserting whether the length of existing items is zero.
+        Finally let's test whether toggling items is working.
+        The first three lines of this test will be almost the same.
+        So I'll copy those from above.
+        This time let's create an item with a done status of true. Then call the toggle URL on its ID.
+        After asserting that the view redirects us. We can get the item again.
+        And I'll call it updated item.
+        And then use assert false to check it's done status.
+        with that complete I'll run all the tests and verify that they all pass
+        With nine tests passing. In the next video we'll write one final test.
+        To test the item model.
 
 
 
