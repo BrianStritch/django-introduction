@@ -1181,9 +1181,85 @@ Once it's installed.
         In the upcoming series of videos, we'll deploy our application to Heroku.
         Putting it in the wild for the world to see
 
+# __DEPLOYMENT__
+# __Heroku Setup and CLI__
+Update to heroku login command
+Since this video was created, the login command for heroku has changed. When the instructor logs in to heroku from the terminal, please use the following command:
 
+heroku login -i
 
+    - To launch our project in the wild. We need to create an account at heroku
+        Which is a cloud-based platform as a service.
+        That allows us to host data-driven apps in isolated containers on their infrastructure.
+        To get started. You'll need to go to heroku.com. And register for a free account.
+        If asked you can set your role as hobbyist.
+        And primary development language as python.
+        Once you've signed up and verified your email.
+        You'll find yourself on a dashboard which looks something like this.
+        While everything on Heroku is manageable via this user interface.
+        There is also a command-line interface that we can use in the terminal.
+        This cli was installed by default. If you use the Code Institute gitpod template
+        when you created this workspace.
+        But if it's not installed for you.
+        For containerized environments like gitpod. Heroku recommends installing it
+        using the standalone install script in their documentation.
+        If you need it because this has changed since the video was recorded
+        you can easily find installation instructions with a quick google search
+        on installing the Heroku cli. Or asking in the Code Institute slack chat.
+        To use the cli we need to log into it.
+        So assuming you've got it installed and ready to go.
+        You can log in using the command heroku login.
+        Doing so will tell us we can press any key to open a browser. And then we can log in.
+        If you just type Heroku by the way.
+        You'll see all the other commands you can use. In particular the help command.
+        If you need to know how any of these other commands work.
+        You can simply type Heroku followed by the command. And then the help command.
+        For example to learn how the apps command works.
+        i can type heroku apps help.
+        As we work through these next few videos
+        we'll use the Heroku cli. As well as the web ui. To navigate around Heroku.
+        Setting up the infrastructure we need. To deploy our to-do app.
+        And make it publicly accessible
 
+# __Installing Project Requirements__
+    - Before we actually deploy our project to Heroku.
+        Let's set up some things it'll need in order to function out there in the wild.
+        First of all, you might remember that the db.sqlite3 file in the file explorer.
+        Has been acting as our database throughout these videos.
+        This is fine for local development.
+        But unfortunately, it won't work in production.
+        Because Heroku uses an ephemeral file system.
+        Which means it's wiped clean every time Heroku runs updates. Or we redeploy our app.
+        Because sqlite is a file-based database.
+        We'll lose our entire database every time this happens because when the file
+        system is wiped the file will be deleted.
+        In general, you never want to store anything valuable on an ephemeral file system.
+        Because it isn't guaranteed to stick around.
+
+Instead, we'll use an add-on for Heroku.
+Which will allow us to use a server-based database called Postgres.
+And that one will be separated from our application.
+So it'll survive even if the application server is destroyed.
+
+    - To use Postgres in our application. We need to install a package called psycopg2
+        Which we can do with pip3 install psycopg2-binary
+        Later on, we'll add the Heroku add-on to set it up.
+        But this will take care of the Django side.
+
+    - We'll also need a package called gunicorn. Or green unicorn.
+        Which will replace our development server once the app is deployed to Heroku.
+        Gunicorn will act as our web server.
+        And we can install it using pip3 install gunicorn
+
+    - With those two packages installed.
+        I'm going to use a new command pip 3 freeze - - local
+        And will direct it into a file called requirements .txt
+        *************        "pip3 freeze --local > requirements.txt"         ************
+        This requirements file is how Heroku will know what it needs to install for our app to work.
+        Specifically, it'll tell Heroku all the packages it needs to install using pip.
+        Just like we've done throughout our project.
+
+# __
 
 
 
