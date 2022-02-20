@@ -1302,11 +1302,114 @@ So it'll survive even if the application server is destroyed.
         In the next video, we'll set up our Heroku database.
         Using an add-on for the app we just created.
 
+# __Creating a New Database on Heroku__
+Important!
+Error fix
+If you get the error below during the steps to deployment:
 
+django.db.utils.OperationalError: FATAL: role "somerandomletters" does not exist
 
+Please run the following command in the terminal to fix it:
 
+unset PGHOSTADDR
 
+    - With our Heroku app created. Let's use an add-on to create a database for it.
+        We want to use Postgres. Which is a server-based relational database.
+        And to set it up. We first need to create the add-on. So Heroku will provide us with a database URL.
+        Then we'll have to set our Django app to connect to it.
+        Instead of connecting to the sqlite3 database as it's currently doing.
+        We could do it through the CLI using the command Heroku addons:create
+        But the even easier way is to just do it through the GUI on the resources tab inside our app.
+        I'll find it by typing Postgres. And select Heroku Postgres.
+        Then leave it on the hobby dev setting and click provision.
+        If I head over to the settings tab now. And click reveal Config Vars
+        You'll see Heroku has provided us with a database URL. Which we can connect to from inside Django.
+        That way once our todo app is deployed to the Heroku environment.
+        This URL will be available to it. And we can connect to our new Postgres database.
+        The database will function just like the squlite3 one we've been using so far.
+        Except it'll be permanent and it will live on Heroku infrastructure.
+        Now that it's been created and provisioned.
+        You can also see this add-on if you go to the terminal and type Heroku add-ons
+        It's worth mentioning by the way that if you wanted to do this with MySql instead of Postgres.
+        You would follow an almost identical process.
+        But use an add-on called clear DB instead.
+        In the next video, we'll connect to the database we just created.
+        And do some final preparation before deploying our code
 
+# __Connecting to Our Remote Database__
+    - Start of transcript. Skip to the end.
+        So far we've installed some of the project requirements we need to deploy our app.
+        Created a new app container on Heroku where our code will live.
+        And set up a remote database to replace the sqlite3 file we've been using so far.
+        In this video. Let's set our Django app up. To connect to that remote database.
+        To do this we need another package called dj-database-url.
+        Which I'll install here with pip3 install dj-database-url
+        This package will allow us to parse the database url that Heroku created.
+        And get all the connection information out of it.
+        Before going further.
+        I'll again freeze the requirements so that Heroku will know it needs to install this also.
+        And then if you look in requirements.txt You'll see that dj-database-url has been added
+        Now to get the url of our remote database.
+        We could get it from the web gui. But we can also get it right here in the terminal
+        by typing heroku config
+        Using the config command allows us to get, edit, set, and unset environment variables
+        for our heroku apps.
+        Let's open settings.py and look for the databases setting.
+        I'm going to copy this and paste it right underneath.
+        I'll comment out the original one. But won't delete it because we'll use it again later.
+        instead in this new one.
+        We're just going to replace the value of the default database
+        with a call to dj_database_url.parse
+        And then paste in the database url from Heroku.
+        Lastly, we need to import dj_database_url at the top. So we can use it here.
+        Since we're now using a different database the one that exists on heroku.
+        It won't have any of our models or user information in it.
+        So to get it all set up to match the sqlite3 database. We need to run migrations.
+        There's no need to make migrations in this case since they've already been made.
+        But we can run them as usual with python3 manage.py migrate
+        Even though our code hasn't even been deployed.
+        The fact that we're now able to run these migrations on the remote database.
+        Means that everything is set up correctly so far.
+        In the next video we'll push all these changes to github.
+
+# __Pushing Our Changes to Github__
+    - With our requirements and settings updated.
+        The last thing I want to do before attempting to deploy to Heroku.
+        Is push all our changes up to github.
+        This is quite simple.
+        Recall that when we created this workspace we began with a template
+        which created a github repository for us.
+        We can see the URL of that repository using git remote -v
+        And looking for the alias origin.
+        This may look familiar as we saw it earlier when we discussed pushing our code to
+        Heroku using the command git push heroku master.
+        In this case, we won't want to deploy to Heroku but instead to the alias origin.
+        Before we do that though we need to create a special file called .gitignore
+        The dot at the beginning is important. So make sure you remember that because otherwise, it won't work.
+        This gitignore file is simply a list of files we don't want included in our github repository.
+        For example, we don't want to include our database files.
+        So let's add *.squlite3 to ignore all files with a squlite3 extension
+        Then I'll also add any pycache directories which contain compiled Python code.
+        As they'll be created every time the app is run anyway. And we don't need to track them.
+        In other apps, there may be other things that you want to include in your gitignore file.
+        But this is fine for ours.
+        We're ready now to push our code to github.
+        The steps here are pretty simple. First we need to add all the files to our local git repository.
+        Then we'll commit those changes. And finally, push them to the remote repository.
+        The local git repo is visible if you type ls -la
+        You shouldn't ever need to modify anything in it.
+        But just so you know what's happening this is where it lives.
+        So to add the files to it we can use the command git add dot
+        And the dot means to add all files.
+        If I type git status now you'll see that all the files have been added to the local repository.
+        Now let's commit them which is like creating a save point and we do
+        that using git commit -m for message. And then adding a commit message of
+        prepared to deploy to Heroku
+        With everything committed. To push the changes to the remote repo we can now
+        use the command git push origin master
+        If you look at your repo now. You'll see that all your code is there and it's got
+        the commit message we added.
+        In the next video, we'll use a similar process to deploy our code to Heroku
 
 
 
