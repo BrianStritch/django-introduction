@@ -1411,7 +1411,49 @@ unset PGHOSTADDR
         the commit message we added.
         In the next video, we'll use a similar process to deploy our code to Heroku
 
-
+# __Attempting a First Deployment__
+    - With our code pushed to github. The last step to deploying our app is to push the
+        code to the Heroku repository that was created when we created the Heroku app.
+        To do that is quite simple.
+        We added the files and committed them in the last video when we pushed the github.
+        So we can skip that part and jump right to git push heroku master
+        If you watch the output you'll see that it's detected a Python app so it installs Python
+        as well as pip and sqlite3 in case you don't have a database setup.
+        We have our Postgres database though so that won't do anything for us.
+        Next it's installing all the requirements in our requirements text file including
+        coverage, dj-database-url, Gunicorn, Django, and all the related requirements.
+        Unfortunately though if you scroll to the bottom you'll see it's generated an error.
+        The error occurred when running the collect static command.
+        Which is normally used to collect static files like CSS and JavaScript.
+        Because we don't have any of those types of files the command is failed.
+        But Heroku reminds us we can easily disable it by using this config command
+        which will disable the collection of static files.
+        I'll run this command now and then try to push again.
+        This time around it worked and we can access our app at this URL here.
+        When we run it though it generates an application error.
+        Heroku lets us know that we can check the logs using heroku logs - - tail in the CLI
+        So let's go do that and see what's going on.
+        These error messages can be handy in particular the error code here h14.
+        This one tells us right next to the code that it means there are no web processes running.
+        But if you want more information you can easily google Heroku error code h14.
+        As you troubleshoot your apps on Heroku you should remember this since it'll help
+        you identify what's really going on.
+        In this case the issue is that essentially we haven't told Heroku that we want
+        this to be a web application with a web server.
+        Remember that we installed gunicorn to act as our web server.
+        But we haven't told gunicorn to start yet.
+        To do that we can create a special file called a Procfile
+        Which I'll do now. And make sure that it has a capital P.
+        In this file I'll type
+        web: gunicorn django_todo.wsgi:application
+        And this is going to tell gunicorn to run using our projects wsgi module.
+        Which will allow it to handle HTTP requests like run server does in our local development environment.
+        With the Procfile complete. I'm going to add it to our git repo.
+        Add a commit message that we added a Procfile.
+        And then push to Heroku again with git push Heroku master
+        We can now refresh our application and see that though we're still getting an error.
+        At least we can see it's a Django error. Which means our application is running
+        In the next video, we'll fix this final error and make sure the project runs.
 
 
 
