@@ -1455,7 +1455,30 @@ unset PGHOSTADDR
         At least we can see it's a Django error. Which means our application is running
         In the next video, we'll fix this final error and make sure the project runs.
 
-
+# __Fix ALLOWED_HOSTS and Run the Project__
+    - We left off with our application running but generating a disallowed host error.
+        This means we need to add the host name of our Heroku app.
+        To the allowed host list in settings.py
+        This list allows Django to ensure that HTTP requests are coming from domain names it trusts.
+        And without it. malicious users would potentially be able to load malicious scripts.
+        Poison the cached versions of our pages. Or even change the reset links in our password reset emails.
+        By default, Django will block a request from any host not in this list.
+        So to fix it we can just add our host in.
+        I'll save that. Then we need to commit our changes and push to Heroku again.
+        So let's add that file.
+        And notice here I'm adding only settings.py
+        just to show that you can select specific files to add instead of using dot to add them all.
+        Once that's added I'll commit and add another commit message of fixed allowed hosts.
+        And then I'll do a git push Heroku master
+        With that done we might as well also push the updated code to our own
+        repo by using git push origin master
+        And now let's take a look at our app.
+        Everything seems to be working now.
+        But just to confirm. I'm going to add an item called deploy web app and mark it as done.
+        And looks like that works just as it should.
+        In the next video, we'll connect Heroku and github together.
+        So that every time we push to github.
+        Our application will automatically deploy the latest code to Heroku
 
 
 
