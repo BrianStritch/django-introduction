@@ -1259,7 +1259,48 @@ So it'll survive even if the application server is destroyed.
         Specifically, it'll tell Heroku all the packages it needs to install using pip.
         Just like we've done throughout our project.
 
-# __
+# __Creating an Heroku App__
+    - Now that we've got a requirements file and have installed everything our
+        project will need to run on Heroku.
+        We can actually create the Heroku app itself.
+        Before you do this make sure you log in if you're not already.
+        By using the Heroku login command.
+        To create an app. i'll use the command Heroku apps colon create.
+        ckz 8780 django todo app.
+        You'll need to specify your own app name. But you can name it whatever you want.
+        You can also specify a region using the --region flag
+        By default, the app will be created in the us region.
+        But if you're in the European union you can simply specify --region eu
+        With the app created.
+        You should now be able to see it in the list when you run the command Heroku apps.
+        Let's take a look in the dashboard also.
+        Clicking on the app. Brings us to the overview where we see any installed
+        add-ons the type of dyno or container the app runs on. And any collaborator activity.
+        On the deploy tab, you can configure how your app is deployed. And we'll get to that a bit later.
+        There's also an activity tab which will keep a log of things like deploying new
+        versions of the app.
+        And a settings tab where we'll be able to configure different app information
+        environment variables, ssl certificates, domains and other app settings.
+        Heading back to the terminal.
+        Going forward we're going to use a tool called git. To manage different versions of our app.
+        And handle deploying it to Heroku.
+        Git is a version control system. That'll allow us to track changes to our code over time
+        Similar to being able to save your progress in a video game.
+        When we create a Heroku app.
+        It automatically sets up a git repository for us that we can push our code changes to.
+        And this is how we'll deploy our project.
+        If you type git remote -v for verbose.
+        You'll see that there are two key remote urls here.
+        One for pushing code to Heroku. And one for fetching code from Heroku.
+        This tells us that when we use the command git push heroku master
+        It will be pushed to the master branch at this url.
+        If we use the command git push origin master. It would go to the other remote url
+        If this doesn't make complete sense yet don't worry.
+        Because we're going to go through this in detail when we deploy the app.
+        For now, just remember that git is the tool we're going to use to push our code to Heroku.
+        And that this remote is the url it'll be pushed to.
+        In the next video, we'll set up our Heroku database.
+        Using an add-on for the app we just created.
 
 
 
