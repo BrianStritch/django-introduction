@@ -1480,6 +1480,60 @@ unset PGHOSTADDR
         So that every time we push to github.
         Our application will automatically deploy the latest code to Heroku
 
+# __Connecting Heroku to Github__
+Important!
+Change to Django versions requires an extra line of code
+In this video, the os.environ.get() method is introduced to call your environment variables stored in the Gitpod environment. In the version of django that this was recorded in, this works because Django still uses import os at the top of its settings.py file, importing the os module that you need to use.
+
+Newer versions of Django no longer include this line of code, so you will need to add it yourself
+
+Please add import os to the top of your settings.py file.
+
+    - As a convenience measure, we can eliminate the need to push to both our own github and Heroku.
+        By connecting the two together.
+        To do it let's open our app in the Heroku dashboard. And go to the deploy tab.
+        Under the deployment method setting. I'll select github.
+        This will connect my github to Heroku. And if you're not logged into your github.
+        it'll ask you to login in a separate tab. And authorize Heroku to connect.
+        Once I'm connected all I need to do is search for the repo name.
+        So you'll need to search for your own and once you find it just click on connect.
+        In the next section you can see an option to enable automatic deploys from the master branch.
+        So I'll click that.
+        Which will make it so that every time I push something to the master branch on my github repository.
+        It will automatically deploy that same code to Heroku.
+        Of course, if you didn't want to do this or you wanted to deploy a different branch for some reason.
+        You can see the next section down allows you to manually deploy.
+        To test this let's make some small changes to our settings.py file.
+        First instead of setting the secret key manually. I'll use os.environ.get
+        To get an environment variable called secret key. Which will allow us to set
+        the secret key at the operating system level. Instead of in our code.
+        We'll talk more about this in a future video.
+        But for now, we'll use that variable. Or use the previous value as the default if it's not set.
+        I'll also add a variable called Heroku hostname which will replace the Heroku host in our aloud host list.
+        Finally let's do the same for the database URL
+        Which is already set on Heroku from when we added the Postgres add-on
+        So we can actually just remove this long database string and replace it with os.environ.get database URL
+        The last thing then is to actually add the variables to Heroku.
+        And we can do that in either the dashboard. Or using the Heroku config command in the CLI
+        I'll use the dashboard. So let's go to our app and click reveal config vars.
+        And add a variable called Heroku hostname. Which will have a value of our apps hostname on Heroku.
+        Database URL is already here so we don't need to do anything with that.
+        And we technically need a secret key variable here as well.
+        But we'll add that later since it's currently set to default to the original one anyway.
+        To confirm that our site is in fact updating when we push to github.
+        Let's make a change to the todo list .html template. By updating the title to Todo List
+        I'll also change the edit pages title to Edit Item. And the add item pages title to Add Item.
+        With all that finished let's add everything we've done with git add dot
+        Then commit it all with a commit message of
+        Setup environment variables and automatic deployments.
+        And finally get push origin master.
+        looking at the activity tab on our app. We can see now that there's a build in progress.
+        And we can view the log just like we would in the terminal.
+        It appears now that everything was deployed successfully. So we should see the changes to our app.
+        If you go refresh it now you'll see the titles of all the pages have been updated.
+        Confirming that our changes were successfully pushed to github and then automatically deployed to Heroku.
+        In the next video, we'll set up a local development environment.
+        So that we don't have to change any settings to run our project in gitpod.
 
 
 
