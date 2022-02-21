@@ -30,7 +30,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-#(vv^973nom_a$@z_f=1b
 # DEBUG = True    this has been commented out so debug is only avail in this gitpod workspace
 DEBUG = development
 
-ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME')] #['bs-django-intro-app-app.herokuapp.com']   original host address
+if development:
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME')] #['bs-django-intro-app-app.herokuapp.com']   original host address
 
 
 # Application definition
