@@ -1535,7 +1535,48 @@ Please add import os to the top of your settings.py file.
         In the next video, we'll set up a local development environment.
         So that we don't have to change any settings to run our project in gitpod.
 
-
+# __The Development Environment__
+    - With our app running on Heroku it would seem like we're done. But there is actually a problem.
+        If we try to run the development server now. You can see that it won't start.
+        Because it's looking for the database URL in our environment.
+        That variable exists only on Heroku.
+        And in our local environment here. We want to use the sqlite database.
+        There are also a couple of other things we'll want to do differently in our local workspace here.
+        Such as making sure that this is the only place debug is on. And updating our hosts.
+        To do this at the top of settings.py just under the imports.
+        I'll create a variable called development. And it'll be equal to os.environ.get('DEVELOPMENT', False)
+        This means that if there's an environment variable called DEVELOPMENT in the environment.
+        This variable will be set to its value. And otherwise, it'll be false.
+        Knowing that. If we want to set debug based on whether we're in development mode
+        We can simply set debug equal to development.
+        This means that in development it'll be true.
+        And on Heroku, it'll be false.
+        And we want this to happen so that if there's an error on Heroku.
+        We won't expose any internal source code on the error page.
+        Now down in the databases section.
+        I'll uncomment this configuration for our squlite database.
+        And set it so that if we're in development mode we'll use that.
+        And otherwise, we'll use the database URL configuration for Heroku.
+        To make this take effect we have to actually set the development environment variable to true.
+        Which we can do from the main workspaces page by clicking on
+        our account in the upper right. and going to settings.
+        Here on this page, I'll add a new environment variable called development.
+        And set its value to true.
+        You can ignore these other variables as there for a different project, we'll get to later.
+        With that done we'll need to restart our workspace and then we can see if it works.
+        The server starts now. But there's one more thing we have to change since our
+        allowed hosts are now set to only allow the Heroku hostname.
+        To fix that I'll head up to the allowed host setting.
+        And use our development variable again to say if it's true. we want to use localhost as our allowed host.
+        And otherwise use the Heroku hostname
+        With that done we can refresh the running app. And see that everything is working again.
+        We can also see we're using our squlite database.
+        Because the items shown are ones that only exists there.
+        Let's add these changes to git.
+        Commit them with a commit message of setup development environment.
+        And then push them with git push origin master.
+        In the upcoming video, we'll discuss the importance of the secret key.
+        And make one final change to secure and complete our todo list application.
 
 
 

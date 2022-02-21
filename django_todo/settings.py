@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 import dj_database_url
 
+development = os.environ.get('DEVELOPMENT', False)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-#(vv^973nom_a$@z_f=1bgd_)!a3!!6x9^san((^6=@0qy1sf9')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True    this has been commented out so debug is only avail in this gitpod workspace
+DEBUG = development
 
 ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME')] #['bs-django-intro-app-app.herokuapp.com']   original host address
 
@@ -76,19 +79,20 @@ WSGI_APPLICATION = 'django_todo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES = {
-    # 'default': dj_database_url.parse(
-    #     'postgres://fsiuvunvfmtgmq:525e2fc57cd2574a291db39ca6e5904bd294de5045648ca032dbcfd4afb503be@ec2-34-250-92-138.eu-west-1.compute.amazonaws.com:5432/d2upbsm3nl90gg'
-    #     )
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-}
+if development:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        # 'default': dj_database_url.parse(
+        #     'postgres://fsiuvunvfmtgmq:525e2fc57cd2574a291db39ca6e5904bd294de5045648ca032dbcfd4afb503be@ec2-34-250-92-138.eu-west-1.compute.amazonaws.com:5432/d2upbsm3nl90gg'
+        #     )
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
 
 
 # Password validation
