@@ -24,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-#(vv^973nom_a$@z_f=1bgd_)!a3!!6x9^san((^6=@0qy1sf9')
+# SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-#(vv^973nom_a$@z_f=1bgd_)!a3!!6x9^san((^6=@0qy1sf9')
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True    this has been commented out so debug is only avail in this gitpod workspace

@@ -1590,7 +1590,44 @@ Please add import os to the top of your settings.py file.
         In the upcoming video, we'll discuss the importance of the secret key.
         And make one final change to secure and complete our todo list application.
 
-
+# __The SECRET_KEY__
+    - The final step in completing our todo list application is to secure it.
+        Django uses the secret key we've seen referenced in settings.py to handle
+        things like password hashing and generating password reset and email
+        confirmation tokens.
+        Because of this, we don't want to store this key in our code repository.
+        That's why it's dubbed a secret.
+        Unfortunately when we push this code to github. And subsequently deployed it to Heroku.
+        This version of our code which includes the secret key was stored forever.
+        It's not a big deal though because we can just generate a couple new secret keys.
+        Which will make this one invalid.
+        So the first thing I'm going to do is change the default to be a blank string.
+        Which will prevent the Django server from even starting if this environment variable is not set.
+        With that saved, I'll go to Google and lookup a Django secret key generator
+        and use it to generate a new one.
+        I'll copy this and then head back to gitpod and add it to our environment variables.
+        Like we did for the development variable in the last video.
+        With that done. I can restart the workspace and the development server should be all set.
+        With that complete let's create another one for Heroku.
+        I'll copy this key and then go to the Heroku dashboard and pull up my app.
+        Go to the Settings tab.
+        Reveal the config variables.
+        And create the new secret key variable.
+        Now I'll head back to gitpod and one last time make sure our server still runs
+        with python3 manage.py runserver.
+        It looks like that's working and the secret key has been removed. So that's good.
+        So the last thing to do now is add the changes we've made to github.
+        Make a new commit with a message of removed secret key.
+        And push it up to github with git push origin master.
+        Even though the old secret key is still in our github history.
+        It doesn't matter now because the new ones are being pulled from the environment.
+        In development mode, we'll have debug turned on.
+        And on Heroku, it'll be turned off. As demonstrated by trying to go to a URL that doesn't exist.
+        And verifying that we just get the standard 404 page.
+        With this our todo app is complete.
+        And you've learned how to build a complete Django application
+        including deployment security and automation.
+        In future videos, we'll put this knowledge to work and take on a significantly larger project.
 
 
 
