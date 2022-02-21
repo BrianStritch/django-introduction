@@ -1,14 +1,15 @@
 # __Hello Django__
-#### __packages to be installed and in this order__
-  - pip3 install Django==3.2
-  - pip3 install coverage
-  - pip3 install psycopg2-binary
-  - pip3 install gunicorn
-  - pip3 install dj-database-url
-  - coverage run --source=todo manage.py test
-  - coverage report
-  - coverage html
-  - pip3 freeze --local > requirements.txt
+
+## __packages to be installed and in this order__
+- pip3 install Django==3.2
+- pip3 install coverage
+- pip3 install psycopg2-binary
+- pip3 install gunicorn
+- pip3 install dj-database-url
+- coverage run --source=todo manage.py test
+- coverage report
+- coverage html
+- pip3 freeze --local > requirements.txt
 
 
 ## __ installing django__
